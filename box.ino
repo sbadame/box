@@ -73,7 +73,7 @@ void loop()
       current_display_hint = places[new_state.place.index + 1].hint;
     }
 
-    loop_LCD(current_display_hint);
+    lcd_topline(current_display_hint);
     Serial.print("Now at: ");
     Serial.println(new_state.place.name);
   }

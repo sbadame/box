@@ -18,3 +18,16 @@ void loop_serial(GPSState &state)
   Serial.print(", "); 
   Serial.println(state.longitude,5);
 }
+
+void print_history()
+{
+  Serial.print("History[");
+  Serial.print(place_history_index);
+  Serial.print("]: ");
+  for(int i = 0; i < HISTORY_LENGTH; i++)
+  {
+    Serial.print(place_history[i].name);
+    Serial.print(", ");
+  }
+  Serial.println();
+}
