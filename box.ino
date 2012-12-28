@@ -23,23 +23,24 @@ int place_history_index = 0;
 
 String current_display_hint = places[0].hint;
 
-float distance(float lat1, float lon1, float lat2, float lon2)
-{
+float distance(float lat1, float lon1,
+               float lat2, float lon2) {
   //Uses haversine from: http://www.movable-type.co.uk/scripts/latlong.html
   float dLat = radians(lat2-lat1);
   float dLon = radians(lon2-lon1);
   float lat1_rad = radians(lat1);
   float lat2_rad = radians(lat2);
 
-  float a = sin(dLat/2) * sin(dLat/2) + sin(dLon/2) * sin(dLon/2) * cos(lat1_rad) * cos(lat2_rad);
+  float a = sin(dLat/2) * sin(dLat/2) +
+            sin(dLon/2) * sin(dLon/2) *
+            cos(lat1_rad) * cos(lat2_rad);
   float c = 2 * atan2(sqrt(a), sqrt(1-a));
   return 6372795 * c; //Earth's radius in m
 }
 
 GPSState previous_state;
 
-void setup()
-{
+void setup() {
   for(int i = 0; i < NUMBER_OF_PLACES; i++) {
     places[i].index = i;
   }
@@ -56,8 +57,7 @@ void setup()
   setup_lock();
 }
 
-void loop()
-{
+void loop() {
   GPSState new_state;
   loop_GPS(new_state); //Writes to new_state the new coordinates
 
@@ -65,7 +65,10 @@ void loop()
   //requires 5 consecutive good reads for it to happen
   new_state.place = calculate_current_place(new_state.longitude, new_state.latitude);
 
-  if (new_state.place.name != previous_state.place.name && new_state.place.name != ANYWHERE.name && new_state.place.name != NO_SIGNAL.name)  {
+  if (new_state.place.name != previous_state.place.name
+          && new_state.place.name != ANYWHERE.name
+          && new_state.place.name != NO_SIGNAL.name)  {
+
     if (new_state.place.index == NUMBER_OF_PLACES - 1) {
       current_display_hint = "Open me up babe.";
       unlock();
@@ -90,16 +93,13 @@ void loop()
  * If the entire history buffer is the same then last_known_place is updated.
  * last_known_place is returned.
  */
-Place calculate_current_place(float longitude, float latitude)
-{
+Place calculate_current_place(float longitude, float latitude) {
   place_history[place_history_index] = calculate_place(longitude, latitude);
   place_history_index = (place_history_index + 1) % HISTORY_LENGTH;
   print_history();
 
-  for (int i = 0; i < HISTORY_LENGTH-1; i++)
-  {
-    if (place_history[i].name != place_history[i+1].name)
-    {
+  for (int i = 0; i < HISTORY_LENGTH-1; i++) {
+    if (place_history[i].name != place_history[i+1].name) {
       return last_known_place;
     }
   }
@@ -113,26 +113,12 @@ Place calculate_current_place(float longitude, float latitude)
  * to the given longitude/latitude.
  * Returns ANYWHERE if none of the places are within 
  */
-Place calculate_place(float longitude, float latitude)
-{
-  for(int i = 0; i < NUMBER_OF_PLACES; i++)
-  {
-    if (distance(latitude, longitude, places[i].latitude, places[i].longitude) < SLACK_METERS) {
+Place calculate_place(float longitude, float latitude) {
+  for(int i = 0; i < NUMBER_OF_PLACES; i++) {
+    if (distance(latitude, longitude,
+                 places[i].latitude, places[i].longitude) < SLACK_METERS) {
       return places[i];
     }
   }
   return ANYWHERE;
-}
-
-void print_history()
-{
-  Serial.print("History[");
-  Serial.print(place_history_index);
-  Serial.print("]: ");
-  for(int i = 0; i < HISTORY_LENGTH; i++)
-  {
-    Serial.print(place_history[i].name);
-    Serial.print(", ");
-  }
-  Serial.println();
 }
