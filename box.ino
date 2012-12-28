@@ -4,14 +4,14 @@
 #include <LiquidCrystal.h>
 #include "data.h"
 #include "places.h" // Where Place places[] is defined.
+Place ANYWHERE = {"ANYWHERE", 0, 0, "ANYWHERE", -1};
+Place NO_SIGNAL = {"NO_SIGNAL", 0, 0, "NO_SIGNAL", -1};
 
 /**
  * Data about the places to go.
  */
 #define NUMBER_OF_PLACES (sizeof(places)/sizeof(Place))
 #define SLACK_METERS 50
-Place ANYWHERE = {"ANYWHERE", 0, 0, "ANYWHERE", -1};
-Place NO_SIGNAL = {"NO_SIGNAL", 0, 0, "NO_SIGNAL", -1};
 
 /**
  * The history buffer
@@ -25,7 +25,8 @@ String current_display_hint = places[0].hint;
 
 float distance(float lat1, float lon1,
                float lat2, float lon2) {
-  //Uses haversine from: http://www.movable-type.co.uk/scripts/latlong.html
+  //Uses haversine from:
+  //  http://www.movable-type.co.uk/scripts/latlong.html
   float dLat = radians(lat2-lat1);
   float dLon = radians(lon2-lon1);
   float lat1_rad = radians(lat1);
@@ -52,7 +53,7 @@ void setup() {
   }
 
   setup_serial();
-  setup_LCD(current_display_hint);
+  setup_LCD();
   setup_GPS();
   setup_lock();
 }

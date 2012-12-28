@@ -10,23 +10,19 @@ SoftwareSerial uart_gps(RXPIN, TXPIN);
 TinyGPS gps;
 
 // The getgps function will get and print the values we want.
-void getgps(TinyGPS &gps, GPSState &state)
-{
-  
+void getgps(TinyGPS &gps, GPSState &state) {
   // Define the variables that will be used
   float latitude, longitude, d;
   gps.f_get_position(&(state.latitude), &(state.longitude));
   state.satellites = gps.satellites();
 }
 
-void setup_GPS()
-{
+void setup_GPS() {
   // Sets baud rate of your GPS
   uart_gps.begin(GPSBAUD);
 }
 
-void loop_GPS(GPSState &state)
-{
+void loop_GPS(GPSState &state) {
   delay(500);
   while(uart_gps.available())     // While there is data on the RX pin...
   {
