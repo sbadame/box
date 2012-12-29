@@ -12,7 +12,7 @@ TinyGPS gps;
 // The getgps function will get and print the values we want.
 void getgps(TinyGPS &gps, GPSState &state) {
   // Define the variables that will be used
-  float latitude, longitude, d;
+  float latitude, longitude;
   gps.f_get_position(&(state.latitude), &(state.longitude));
   state.satellites = gps.satellites();
 }
@@ -23,6 +23,7 @@ void setup_GPS() {
 }
 
 void loop_GPS(GPSState &state) {
+  delay(500);
   while(uart_gps.available()) {     // While there is data on the RX pin...
       int c = uart_gps.read();    // load the data into a variable...
       if(gps.encode(c))      // if there is a new valid sentence...

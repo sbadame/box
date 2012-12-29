@@ -57,10 +57,13 @@ void setup() {
 
   setup_serial();
   setup_LCD();
-  lcd_display("Let the games", "begin.", "?");
-  delay(3000);
+  lcd_display("Let the games", "begin.", "");
   setup_GPS();
   setup_lock();
+  unlock();
+  lcd_display(places[0].hint, places[0].bottom, places[0].progress);
+  delay(5000);
+  lock();
 }
 
 void loop() {
@@ -89,15 +92,15 @@ void loop() {
 
     Serial.print("Now at: ");
     Serial.println(new_state.place.name);
+    lcd_display(current_display_hint,
+                current_display_bottom,
+                current_display_progress);
   }
 
 
   loop_serial(new_state);
 
   previous_state = new_state;
-  lcd_display(current_display_hint,
-              current_display_bottom,
-              current_display_progress);
   delay(1000);
 }
 
