@@ -4,6 +4,7 @@
 #include <LiquidCrystal.h>
 #include "data.h"
 #include "places.h" // Where Place places[] is defined.
+                    // .gitignore'd because of GPS coordinates.
 Place ANYWHERE = {"ANYWHERE", 0, 0, "ANYWHERE", "ANYWHERE bot", -1, ""};
 Place NO_SIGNAL = {"NO_SIGNAL", 0, 0, "NO_SIGNAL","NO_SIGNAL bot", -1, ""};
 
