@@ -4,8 +4,8 @@
 #include <LiquidCrystal.h>
 #include "data.h"
 #include "places.h" // Where Place places[] is defined.
-Place ANYWHERE = {"ANYWHERE", 0, 0, "ANYWHERE", -1};
-Place NO_SIGNAL = {"NO_SIGNAL", 0, 0, "NO_SIGNAL", -1};
+Place ANYWHERE = {"ANYWHERE", 0, 0, "ANYWHERE", "ANYWHERE bot", -1, ""};
+Place NO_SIGNAL = {"NO_SIGNAL", 0, 0, "NO_SIGNAL","NO_SIGNAL bot", -1, ""};
 
 /**
  * Data about the places to go.
@@ -22,6 +22,8 @@ Place last_known_place = ANYWHERE;
 int place_history_index = 0;
 
 String current_display_hint = places[0].hint;
+String current_display_bottom = places[0].bottom;
+String current_display_progress = places[0].progress;
 
 float distance(float lat1, float lon1,
                float lat2, float lon2) {
@@ -54,6 +56,8 @@ void setup() {
 
   setup_serial();
   setup_LCD();
+  lcd_display("Let the games", "begin.", "?");
+  delay(3000);
   setup_GPS();
   setup_lock();
 }
@@ -71,13 +75,17 @@ void loop() {
           && new_state.place.name != NO_SIGNAL.name)  {
 
     if (new_state.place.index == NUMBER_OF_PLACES - 1) {
-      current_display_hint = "Open me up babe.";
+      current_display_hint = "Open me up babe";
+      current_display_bottom = "";
+      current_display_progress = "";
       unlock();
     } else {
-      current_display_hint = places[new_state.place.index + 1].hint;
+      Place next_place = places[new_state.place.index + 1];
+      current_display_hint = next_place.hint;
+      current_display_bottom = next_place.bottom;
+      current_display_progress = next_place.progress;
     }
 
-    lcd_topline(current_display_hint);
     Serial.print("Now at: ");
     Serial.println(new_state.place.name);
   }
@@ -86,6 +94,10 @@ void loop() {
   loop_serial(new_state);
 
   previous_state = new_state;
+  lcd_display(current_display_hint,
+              current_display_bottom,
+              current_display_progress);
+  delay(1000);
 }
 
 /**

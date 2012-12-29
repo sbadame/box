@@ -1,9 +1,11 @@
 struct Place {
-  String name;
+  char* name;
   float latitude;
   float longitude;
-  String hint;
+  char* hint;
+  char* bottom;
   int index;
+  char* progress;
 };
 
 struct GPSState {
