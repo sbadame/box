@@ -14,7 +14,9 @@ void loop_serial(GPSState &state) {
   Serial.print("Lat/Long: ");
   Serial.print(state.latitude,5);
   Serial.print(", ");
-  Serial.println(state.longitude,5);
+  Serial.print(state.longitude,5);
+  Serial.print(" Sats: ");
+  Serial.println(state.satellites);
 }
 
 void print_history() {

@@ -57,7 +57,8 @@ void loop() {
 
   //Writes to new_state the current place
   //requires 5 consecutive good reads for it to happen
-  new_state.place = calculate_current_place(new_state.longitude, new_state.latitude);
+  new_state.place = calculate_current_place(
+      new_state.longitude, new_state.latitude);
 
   if (new_state.place.name != previous_state.place.name
           && new_state.place.name != ANYWHERE.name
