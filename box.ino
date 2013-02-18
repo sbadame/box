@@ -69,6 +69,7 @@ void setup() {
 void loop() {
   GPSState new_state;
   loop_GPS(new_state); //Writes to new_state the new coordinates
+  loop_serial(new_state);
 
   //Writes to new_state the current place
   //requires 5 consecutive good reads for it to happen
@@ -96,9 +97,6 @@ void loop() {
                 current_display_bottom,
                 current_display_progress);
   }
-
-
-  loop_serial(new_state);
 
   previous_state = new_state;
   delay(1000);
