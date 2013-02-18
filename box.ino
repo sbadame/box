@@ -26,22 +26,6 @@ String current_display_hint = places[0].hint;
 String current_display_bottom = places[0].bottom;
 String current_display_progress = places[0].progress;
 
-float distance(float lat1, float lon1,
-               float lat2, float lon2) {
-  //Uses haversine from:
-  //  http://www.movable-type.co.uk/scripts/latlong.html
-  float dLat = radians(lat2-lat1);
-  float dLon = radians(lon2-lon1);
-  float lat1_rad = radians(lat1);
-  float lat2_rad = radians(lat2);
-
-  float a = sin(dLat/2) * sin(dLat/2) +
-            sin(dLon/2) * sin(dLon/2) *
-            cos(lat1_rad) * cos(lat2_rad);
-  float c = 2 * atan2(sqrt(a), sqrt(1-a));
-  return 6372795 * c; //Earth's radius in m
-}
-
 GPSState previous_state;
 
 void setup() {
@@ -136,4 +120,20 @@ Place calculate_place(float longitude, float latitude) {
     }
   }
   return ANYWHERE;
+}
+
+float distance(float lat1, float lon1,
+               float lat2, float lon2) {
+  //Uses haversine from:
+  //  http://www.movable-type.co.uk/scripts/latlong.html
+  float dLat = radians(lat2-lat1);
+  float dLon = radians(lon2-lon1);
+  float lat1_rad = radians(lat1);
+  float lat2_rad = radians(lat2);
+
+  float a = sin(dLat/2) * sin(dLat/2) +
+            sin(dLon/2) * sin(dLon/2) *
+            cos(lat1_rad) * cos(lat2_rad);
+  float c = 2 * atan2(sqrt(a), sqrt(1-a));
+  return 6372795 * c; //Earth's radius in m
 }
