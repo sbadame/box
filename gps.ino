@@ -20,8 +20,8 @@ void loop_GPS(GPSState &state) {
       if(gps.encode(c)) {        // if there is a new valid sentence...
         gps.f_get_position(      // Store it.
             &(state.latitude), &(state.longitude));
-        state.satellites = gps.satellites();
       }
   }
+  state.satellites = gps.satellites();
 }
 
