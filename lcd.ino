@@ -8,7 +8,6 @@ void setup_LCD() {
   lcd.begin(16, 2); // set up the LCD's number of columns and rows
   lcd.noCursor();
   lcd.noAutoscroll();
-
 }
 
 void lcd_display(String top, String bottom, String progress) {
